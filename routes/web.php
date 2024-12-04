@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Models\Categorie;
 use App\Models\Post;
+use App\Models\Social;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -15,7 +16,8 @@ Route::get('/', function () {
 Route::get('/posts', function () {
     return view('posts', [
         'posts' => Post::with(['categorie', 'type', 'user'])->get(),
-        'categories' => Categorie::all()
+        'categories' => Categorie::all(),
+        'socials' => Social::all()
     ]);
 })->middleware('auth')->name("posts");
 
