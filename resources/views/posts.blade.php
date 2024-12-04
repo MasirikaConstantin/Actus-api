@@ -28,7 +28,6 @@
 @endforelse
 </div>
 
-<p class="mt-4 mb-6 font-bold" >Les Catégories</p>
 
 
 
@@ -44,8 +43,9 @@
 
         <!-- Membre 2 -->
             <div class="group float-animation">
+<p class="mt-4 mb-6 font-bold" >Les Catégories</p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-gray-300 rounded rounded-xl px-2 py-2">
                     @forelse ($categories as $categorie )
 
                         <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -72,7 +72,9 @@
             
             <!-- Membre 1 -->
             <div class="group float-animation">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<p class="mt-4 mb-6 font-bold" >Les Urls</p>
+                
+                <div class="grid grid-cols-1 bg-gray-500 rounded rounded-xl px-2 py-2  md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 @forelse ($socials as $social )
 
