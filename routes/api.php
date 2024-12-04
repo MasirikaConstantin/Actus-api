@@ -32,9 +32,16 @@ Route::delete('/user', [GestionConnexion::class, 'delete'])->middleware('auth:sa
 Route::get('/reaction/{post}', [PostController::class, 'Reaction'])->middleware('auth:sanctum');
 
 
-Route::middleware('auth:sanctum')->group(function () {
+/*Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('categories', CategorieController::class);
-});
+});*/
+
+Route::get('/categories', [CategorieController::class, 'index']);
+Route::post('/categories', [CategorieController::class, 'store'])->middleware('auth:sanctum');
+Route::get('/categories/{id}', [CategorieController::class, 'show']);
+Route::put('/categories/{id}', [CategorieController::class, 'update'])->middleware('auth:sanctum');
+Route::patch('/categories/{id}', [CategorieController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('socials', SocialController::class);
