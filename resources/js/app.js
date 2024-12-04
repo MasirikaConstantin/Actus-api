@@ -1,7 +1,11 @@
-import './bootstrap';
+import { createApp } from 'vue';
 
-import Alpine from 'alpinejs';
+const app = createApp({
+    data() {
+        return {
+            message: 'Hello depuis Vue.js !'
+        };
+    },
+});
 
-window.Alpine = Alpine;
-
-Alpine.start();
+app.mount('#app');
