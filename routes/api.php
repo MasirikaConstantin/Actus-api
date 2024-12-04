@@ -43,6 +43,13 @@ Route::put('/categories/{id}', [CategorieController::class, 'update'])->middlewa
 Route::patch('/categories/{id}', [CategorieController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->group(function () {
+/*Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('socials', SocialController::class);
-});
+});*/
+
+Route::get('/socials', [SocialController::class, 'index']);
+Route::post('/socials', [SocialController::class, 'store'])->middleware('auth:sanctum');
+Route::get('/socials/{id}', [SocialController::class, 'show']);
+Route::put('/socials/{id}', [SocialController::class, 'update'])->middleware('auth:sanctum');
+Route::patch('/socials/{id}', [SocialController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('/socials/{id}', [SocialController::class, 'destroy'])->middleware('auth:sanctum');
