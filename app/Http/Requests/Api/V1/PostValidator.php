@@ -26,7 +26,7 @@ class PostValidator extends FormRequest
         return [
                 'titre' => 'required|string|max:255',
                 'contenu' => 'required|string',
-                'resume' => 'nullable|string',
+                'introduction' => 'required|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
                 'slug'=>['required'],
                 'temps' => 'nullable|numeric',
@@ -39,7 +39,7 @@ class PostValidator extends FormRequest
 
     protected function prepareForValidation(){
         $this->merge([
-            'slug' => $this->input('slug') ?: Str::slug($this->input('titre') . '-' . Carbon::now()->format('H-i-s'))
+            'slug' => $this->input('slug') ?: Str::slug($this->input('titre') . '-' . Carbon::now()->format('i-s'))
     
             ]);
     }

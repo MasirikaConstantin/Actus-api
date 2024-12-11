@@ -15,16 +15,59 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function index() {
+    /*public function index() {
+
+        $validatedData = $request->validate([
+            'limit' => 'nullable|integer|min:1|max:100'
+        ]);
+    
+        $limit = $validatedData['limit'] ?? 10;
+    
+        // Utilisation de la pagination
+        $posts = Post::with('sections')->paginate($limit);
+    
+        return response()->json([
+            'message' => 'Liste des posts paginée récupérée avec succès.',
+            'posts' => $posts
+        ]);
          // Version avec pagination (recommandée)
-         $posts = Post::with(['categorie', 'type', 'user'])
+         $posts = Post::with(['categorie', 'type', 'user',"sections"])
          ->orderBy('created_at', 'desc')
          ->get();
 
          return response()->json([
             'posts' => $posts
         ]);
-    }
+    }*/
+
+    public function index(Request $request)
+{
+    $validatedData = $request->validate([
+        'limit' => 'nullable|integer|min:1|max:100'
+    ]);
+
+    $limit = $validatedData['limit'] ?? 10;
+
+    // Récupérer les posts avec les sections et les réactions
+    $posts = Post::with(['sections', 'reactions'])
+        ->withCount([
+            'reactions as total_reactions',
+            'reactions as true_reactions' => function ($query) {
+                $query->where('reaction', true); // ou 1 selon votre logique
+            },
+            'reactions as false_reactions' => function ($query) {
+                $query->where('reaction', false); // ou 0 selon votre logique
+            },
+        ])
+        ->paginate($limit);
+
+    return response()->json([
+        'message' => 'Liste des posts paginée récupérée avec succès.',
+        'posts' => $posts
+    ]);
+}
+
+
     /**
      * Enregistrer un nouveau post
      */
@@ -114,5 +157,8 @@ public function show(Post $post)
             ]);
         }
 
+    public function register(){
+
+    }
 
 }

@@ -10,7 +10,7 @@ class Post extends Model
     protected $fillable = [
         'titre',
         'slug',
-        'resume',
+        'introduction',
         'contenu',
         'image',
         'temps',
@@ -29,6 +29,16 @@ class Post extends Model
     {
         return $this->belongsTo(Categorie::class);
     }
+
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
+    }
+
+    public function reactions()
+{
+    return $this->hasMany(Reaction::class);
+}
 
     public function user()
     {
