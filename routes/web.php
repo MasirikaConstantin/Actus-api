@@ -4,13 +4,14 @@ use App\Http\Controllers\ProfileController;
 use App\Models\Categorie;
 use App\Models\Post;
 use App\Models\Social;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
 Route::get('/', function () {
-    return view('index');
+    return view('accueil');
 });
 
 Route::get('/posts', function () {
@@ -22,7 +23,7 @@ Route::get('/posts', function () {
 })->middleware('auth')->name("posts");
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard',['users'=>User::paginate(3)]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

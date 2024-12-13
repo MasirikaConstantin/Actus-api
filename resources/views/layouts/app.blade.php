@@ -7,11 +7,18 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Square+Peg&display=swap" rel="stylesheet">
-        <!-- Scripts -->
+        <style>
+                    
+            @font-face {
+              font-family: 'Google';
+              src: url('{{asset('ProductSans-Light.ttf')}}');
+              font-weight: 500;
+              
+          }
+          body{
+              font-family: 'Google';
+          }
+          </style> <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
@@ -28,18 +35,12 @@
 
     @endif
     </head>
-    <body class="font-sans antialiased">
+    <body class=" antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+         
 
             <!-- Page Content -->
             <main>
