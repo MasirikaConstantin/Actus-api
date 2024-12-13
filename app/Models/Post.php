@@ -17,7 +17,8 @@ class Post extends Model
         'type_id',
         'categorie_id',
         'user_id',
-        'status'
+        'status',
+        'vues'
     ];
 
     public function type()
@@ -42,7 +43,9 @@ class Post extends Model
 public function commentaires(){
     return $this->hasMany(Commentaire::class);
 }
-
+public function favoris(){
+    return $this->hasMany(Favori::class);
+}
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -51,5 +54,11 @@ public function commentaires(){
     public function imageUrl(){
         //return $this->image ? asset('storage/' . $this->image) : null;
         return Storage::disk('public')->url($this->image); 
+    }
+
+    public function incrementViewsCount()
+    {
+        $this->vues++;
+        $this->save();
     }
 }

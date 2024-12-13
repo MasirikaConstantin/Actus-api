@@ -36,12 +36,13 @@ Route::post("/new/sections",[SectionController::class, "store"])->middleware('au
 Route::post("/new/comment",[CommentaireControler::class, "store"])->middleware('auth:sanctum');
 Route::post("/react",[ReactionController::class, "store"])->middleware('auth:sanctum');
 
-//Route::post('/posts', [PostController::class, 'login']);
-//Route::post('/posts', [PostController::class, 'logout'])->middleware('auth:sanctum');
-//Route::post('/posts', [PostController::class, 'register']);
-//Route::put('/posts', [PostController::class, 'update'])->middleware('auth:sanctum');
-//Route::delete('/posts', [PostController::class, 'delete'])->middleware('auth:sanctum');
-Route::get('/posts/{post}', [PostController::class, 'Reaction'])->middleware('auth:sanctum');
+    //Route::post('/posts', [PostController::class, 'login']);
+    //Route::post('/posts', [PostController::class, 'logout'])->middleware('auth:sanctum');
+    //Route::post('/posts', [PostController::class, 'register']);
+    //Route::put('/posts', [PostController::class, 'update'])->middleware('auth:sanctum');
+    //Route::delete('/posts', [PostController::class, 'delete'])->middleware('auth:sanctum');
+Route::get('/reaction/{post}', [PostController::class, 'Reaction'])->middleware('auth:sanctum');
+Route::get('/posts/{post}', [PostController::class, 'show']);
 
 
 

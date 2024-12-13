@@ -45,11 +45,11 @@ class PostController extends Controller
     $validatedData = $request->validate([
         'limit' => 'nullable|integer|min:1|max:100'
     ]);
-
+    
     $limit = $validatedData['limit'] ?? 10;
-
-    // Récupérer les posts avec les sections et les réactions
-    $posts = Post::with(['sections', 'reactions','commentaires'])
+    
+    // Récupérer les posts avec les sections, les réactions, et les commentaires
+    $posts = Post::with(['sections', 'reactions', 'commentaires','categorie','user'])
         ->withCount([
             'reactions as total_reactions',
             'reactions as true_reactions' => function ($query) {
@@ -58,13 +58,16 @@ class PostController extends Controller
             'reactions as false_reactions' => function ($query) {
                 $query->where('reaction', false); // ou 0 selon votre logique
             },
+            'commentaires', // Comptage des commentaires pour chaque post
+            'favoris'
         ])
         ->paginate($limit);
-
+    
     return response()->json([
         'message' => 'Liste des posts paginée récupérée avec succès.',
         'posts' => $posts
     ]);
+    
 }
 
 
@@ -123,7 +126,22 @@ public function login(Request $request)
 }
 public function show(Post $post)
     {
-        $post->load(['categorie', 'type', 'user']);
+        $post->incrementViewsCount();
+
+        $post->load(['sections', 'reactions', 'commentaires','categorie','user'])
+        ->withCount([
+            'reactions as total_reactions',
+            'reactions as true_reactions' => function ($query) {
+                $query->where('reaction', true); // ou 1 selon votre logique
+            },
+            'reactions as false_reactions' => function ($query) {
+                $query->where('reaction', false); // ou 0 selon votre logique
+            },
+            'commentaires', // Comptage des commentaires pour chaque post
+            'favoris'
+        ])->get();
+
+        //$post->load(['categorie', 'type', 'user']);
         
         return response()->json([
             'post' => $post
