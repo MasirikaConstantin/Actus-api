@@ -39,6 +39,9 @@ class Post extends Model
 {
     return $this->hasMany(Reaction::class);
 }
+public function commentaires(){
+    return $this->hasMany(Commentaire::class);
+}
 
     public function user()
     {

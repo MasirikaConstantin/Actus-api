@@ -50,4 +50,9 @@ class User extends Authenticatable
         return $this->hasMany(Reaction::class);
     }
     
+
+    public function favoris()
+    {
+        return $this->hasMany(Favori::class);
+    }
 }
