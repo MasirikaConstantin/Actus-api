@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 
 Route::get('/', function () {
     return view('accueil');
-})->middleware('gest');
+})->middleware('guest');
 
 Route::middleware(['auth', 'verified','rolemanager:utilisateur'])->get('/erreur', function () {
     return view('autres');
