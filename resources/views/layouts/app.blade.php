@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>@yield('titre',"Dashboard")</title>
 
         <style>
                     
@@ -24,7 +24,6 @@
         <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
         <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
         <script src="https://cdn.tailwindcss.com"></script>
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -34,6 +33,14 @@
    
 
     @endif
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+    </style>
     </head>
     <body class=" antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -47,5 +54,6 @@
                 {{ $slot }}
             </main>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     </body>
 </html>

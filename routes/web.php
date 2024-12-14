@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GestionAdmin;
 use App\Http\Controllers\ProfileController;
 use App\Models\Categorie;
 use App\Models\Post;
@@ -23,7 +24,7 @@ Route::get('/posts', function () {
 })->middleware('auth')->name("posts");
 
 Route::get('/dashboard', function () {
-    return view('dashboard',['users'=>User::paginate(3)]);
+    return view('dashboard',['users'=>User::paginate(10),'categories'=>Categorie::all()]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -42,3 +43,14 @@ Route::get('/change-language/{lang}', function ($lang) {
     }
     return Redirect::back();
 })->name('change.language');
+
+Route::prefix('/new')->controller(GestionAdmin::class)->middleware(['auth', 'verified'])->name('admin.')->group(function (){
+    Route::get('/category','newcat')->name('newcat');
+    Route::post('/category','savecat');
+
+    Route::get('/category/{categorie}','editcat')->name('editcat');
+    Route::post('/category/{categorie}','updatecat');
+
+    Route::delete("/delete/{categorie}",'deletcat')->name('deletecat');
+    
+});
