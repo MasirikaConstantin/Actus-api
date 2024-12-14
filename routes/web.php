@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\GestionAdmin;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SectionControllerSite;
 use App\Models\Categorie;
 use App\Models\Post;
 use App\Models\Social;
@@ -28,7 +30,7 @@ Route::get('/posts', function () {
 })->middleware(['auth', 'verified','rolemanager:admin'])->name("posts");
 
 Route::get('/dashboard', function () {
-    return view('dashboard',['users'=>User::paginate(10),'categories'=>Categorie::all()]);
+    return view('dashboard',['users'=>User::paginate(10),'categories'=>Categorie::all(),"posts"=>Post::paginate(10)]);
 })->middleware(['auth', 'verified','rolemanager:admin'])->name('dashboard');
 
 Route::middleware(['auth', 'verified','rolemanager:admin'])->group(function () {
@@ -57,4 +59,52 @@ Route::prefix('/new')->controller(GestionAdmin::class)->middleware(['auth', 'ver
 
     Route::delete("/delete/{categorie}",'deletcat')->name('deletecat');
     
+});
+
+// Routes pour la gestion des utilisateurs
+Route::middleware(['auth','verified','rolemanager:admin'])->group(function () {
+    // Route pour changer le rôle d'un utilisateur (admin <-> utilisateur)
+    Route::patch('/admin/users/{user}/toggle-role', [GestionAdmin::class, 'toggleRole'])
+        ->name('admin.toggleUserRole');
+
+    // Route pour supprimer un utilisateur
+    Route::delete('/admin/users/{user}/delete', [GestionAdmin::class, 'deleteUser'])
+        ->name('admin.deleteUser');
+});
+
+Route::middleware(['auth','verified','rolemanager:admin'])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // Liste des posts
+        Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+        
+        // Formulaire de création
+        Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+        
+        // Enregistrement du post
+        Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+        
+        // Édition d'un post
+        Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+        
+        // Mise à jour d'un post
+        Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+        
+        // Suppression d'un post
+        Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+        Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    });
+});
+
+
+
+Route::middleware(['auth', 'verified','rolemanager:admin'])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // Routes pour les sections
+        Route::get('/posts/{post}/sections/create', [SectionControllerSite::class, 'create'])->name('sections.create');
+        Route::post('/posts/{post}/sections', [SectionControllerSite::class, 'store'])->name('sections.store');
+        Route::get('/posts/{post}/sections/{section}/edit', [SectionControllerSite::class, 'edit'])->name('sections.edit');
+        Route::put('/posts/{post}/sections/{section}', [SectionControllerSite::class, 'update'])->name('sections.update');
+        Route::delete('/posts/{post}/sections/{section}', [SectionControllerSite::class, 'destroy'])->name('sections.destroy');
+    });
 });

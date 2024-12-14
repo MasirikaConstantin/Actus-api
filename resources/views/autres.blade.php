@@ -29,6 +29,15 @@
             <button class="px-4 py-3 bg-gray-300 rounded-md">
               Signalez un probleme
             </button>
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+
+              <x-dropdown-link :href="route('logout')"
+                      onclick="event.preventDefault();
+                                  this.closest('form').submit();">
+                  {{ __('Log Out') }}
+              </x-dropdown-link>
+          </form>
             <a href="/#" class="flex items-center gap-2 text-gray-300">
               <span class="inline-block w-4 h-4">
                 <svg

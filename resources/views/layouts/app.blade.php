@@ -33,14 +33,7 @@
    
 
     @endif
-    <style>
-        body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-    </style>
+    
     </head>
     <body class=" antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
