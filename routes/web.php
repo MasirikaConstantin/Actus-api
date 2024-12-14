@@ -15,19 +15,23 @@ Route::get('/', function () {
     return view('accueil');
 });
 
+Route::middleware(['auth', 'verified','rolemanager:utilisateur'])->get('/erreur', function () {
+    return view('autres');
+})->name('autres');
+
 Route::get('/posts', function () {
     return view('posts', [
         'posts' => Post::with(['categorie', 'type', 'user'])->get(),
         'categories' => Categorie::all(),
         'socials' => Social::all()
     ]);
-})->middleware('auth')->name("posts");
+})->middleware(['auth', 'verified','rolemanager:admin'])->name("posts");
 
 Route::get('/dashboard', function () {
     return view('dashboard',['users'=>User::paginate(10),'categories'=>Categorie::all()]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified','rolemanager:admin'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified','rolemanager:admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -44,7 +48,7 @@ Route::get('/change-language/{lang}', function ($lang) {
     return Redirect::back();
 })->name('change.language');
 
-Route::prefix('/new')->controller(GestionAdmin::class)->middleware(['auth', 'verified'])->name('admin.')->group(function (){
+Route::prefix('/new')->controller(GestionAdmin::class)->middleware(['auth', 'verified','rolemanager:admin'])->name('admin.')->group(function (){
     Route::get('/category','newcat')->name('newcat');
     Route::post('/category','savecat');
 
