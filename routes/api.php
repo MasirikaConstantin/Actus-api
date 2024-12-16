@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\GestionConnexion;
 use App\Http\Controllers\Api\V1\SocialController;
 use App\Http\Controllers\CommentaireControler;
 use App\Http\Controllers\FavoriController;
+use App\Http\Controllers\PostController as ControllersPostController;
 use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\SectionController;
 use App\Http\Requests\CommentaireValidator;
@@ -79,3 +80,4 @@ Route::delete('/socials/{id}', [SocialController::class, 'destroy'])->middleware
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('favoris', FavoriController::class);
 });
+Route::get('/category/{category}',[PostController::class, 'lescategory']);
