@@ -33,12 +33,14 @@ URL: https://flowbite.com/docs/components/typography/
 
             <p class="text-xl text-gray-200">Les sections</p>
             @forelse ($post->sections as $section )
+            <p class="text-xl text-gray-200">{{ $section->titre }}</p>
+
+            
                 @if ($section->image)
                 <figure  ><img class="rounded-xl" src="{{ $section->imageUrl() }}" alt="">
                 <figcaption>{{ $section->titre }}</figcaption>
                 </figure>
                 @endif
-                <p class="lead">{{ $section->introduction }}</p>
                 <p class="text-xl">{{ $section->contenu }}</p>
 
 
