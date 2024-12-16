@@ -117,7 +117,7 @@
                                     </td>
                                     <td class="px-6 py-4 border-b">
                                         <div class="flex space-x-2">
-                                            <a href="{{ route('admin.posts.edit', $post) }}" class="text-blue-600 hover:text-blue-900">
+                                            <a href="{{ route('admin.sections.create', $post) }}" class="text-blue-600 hover:text-blue-900">
                                                 Ajouter des sections
                                             </a>
                                             <a href="{{ route('admin.posts.edit', $post) }}" class="text-blue-600 hover:text-blue-900">
