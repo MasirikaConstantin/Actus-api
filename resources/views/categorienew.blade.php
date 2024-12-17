@@ -32,7 +32,7 @@
               </div>
               <!-- Modal body -->
               <div class="p-4 md:p-5">
-                  <form class="space-y-4" action="{{route($categorie->exists ? 'admin.editcat': 'admin.newcat', $categorie)}}" method="POST">
+                  <form id="blogForm" class="space-y-4" action="{{route($categorie->exists ? 'admin.editcat': 'admin.newcat', $categorie)}}" method="POST">
 
                     @csrf
                       <div>
@@ -59,12 +59,24 @@
                       <div>
                           
                             <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                            <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Entrer une description">{{ old('description',$categorie->description) }}</textarea>
                             @error("description")
                           <div class="p-4 mb-4 mt-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
                             <span class="font-medium">Erreur alert!</span> {{ $message }}.
                           </div>
                           @enderror
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
+                            <!-- ... votre header ... -->
+                                <input type="hidden" name="description" id="description">
+                                
+                                <!-- Editor Container -->
+                                <div class="p-6">
+                                    <div id="editor" class="bg-white rounded-lg min-h-[300px]">
+                                    </div>
+                                </div>
+                
+                                
                         </div>
                       
         <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> 
@@ -93,5 +105,76 @@ Retour à l'accueil
       
   </div> 
 </div> 
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... vos autres balises head ... -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+<body class="bg-gradient-to-br from-indigo-100 to-purple-100 min-h-screen">
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <script>
+        const quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link', 'image', 'code-block'],
+                    ['clean']
+                ]
+            },
+            placeholder: 'Compose an epic story...'
+        });
+
+        // Méthode 1 : Utilisation d'un formulaire classique
+        document.getElementById('blogForm').onsubmit = function() {
+            // Récupère le contenu HTML de l'éditeur
+            var description = quill.root.innerHTML;
+            // Met à jour le champ caché
+            document.getElementById('description').value = description;
+            return true;
+        };
+
+        // Méthode 2 : Utilisation d'Ajax
+        function saveDraft() {
+            var description = quill.root.innerHTML;
+            
+            fetch('{{ route("admin.newcat") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    description: description
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Brouillon sauvegardé!');
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+        }
+    </script>
+</body>
+</html>
 </x-app-layout>
   

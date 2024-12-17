@@ -50,7 +50,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-600 transition-all" onclick="showSection('liens')">
+                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-600 transition-all" onclick="showSection('socials')">
                                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
                                 </svg>
@@ -215,7 +215,7 @@
                                                 {{ $categorie->name }}
                                             </div>
                                         </td>
-                                        <td class="px-4 py-3">{{ Str::limit($categorie->description,70) }}</td>
+                                        <td class="px-4 py-3">{!! $categorie->description !!}</td>
                                         
                                         <td class="px-4 py-3">{{ $categorie->created_at ? $categorie->created_at->format('d/m/Y'): "N/A" }}</td>
                                         
@@ -381,6 +381,79 @@
     </div>
 </div>
 
+
+
+<div id="socials" class="content-section">
+    <div class="glass rounded-xl p-6 text-white">
+        @session('success')
+            <div class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <div>
+                    <span class="font-medium">Message de succès!</span> {{ session('success') }}.
+                </div>
+            </div>
+        @endsession
+
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Gestion des Réseaux Sociaux</h2>
+            <a href="{{ route('admin.socials.create') }}" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg">
+                Ajouter un réseau social
+            </a>
+        </div>
+
+        <div class="">
+            <table class="w-full overflow-x-auto">
+                <thead>
+                    <tr class="border-b border-gray-700">
+                        <th class="px-4 py-3 text-left">Nom</th>
+                        <th class="px-4 py-3 text-left">URL</th>
+                        <th class="px-4 py-3 text-left">Date de création</th>
+                        <th class="px-4 py-3 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($socials as $social)
+                    <tr class="border-b border-gray-700 hover:bg-blue-900/50">
+                        <td class="px-4 py-3">{{ $social->name }}</td>
+                        <td class="px-4 py-3">
+                            <a href="{{ $social->url }}" target="_blank" class="text-blue-400 hover:text-blue-300">
+                                {{ $social->url }}
+                            </a>
+                        </td>
+                        <td class="px-4 py-3">{{ $social->created_at->format('d/m/Y') }}</td>
+                        <td class="px-4 py-3">
+                            <div class="flex space-x-2">
+                                <a href="{{ route('admin.socials.edit', $social) }}" class="text-blue-400 hover:text-blue-300">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                    </svg>
+                                </a>
+
+                                <form action="{{ route('admin.socials.destroy', $social) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce réseau social ?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-400 hover:text-red-300">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <div class="flex justify-end mt-4">
+            {{ $socials->links() }}
+        </div>
+    </div>
+</div>
+
 <script>
 function confirmRoleChange(id, name, currentRole) {
     const newRole = currentRole === 0 ? 'utilisateur' : 'administrateur';
@@ -424,6 +497,15 @@ function confirmDelete(id, name) {
                 showSection('utilisateur');
             }
         });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifier si une ancre est présente dans l'URL
+            const hash = window.location.hash;
+            if (hash && hash === '#socials') {
+                showSection('socials');
+            }
+        });
+        
 
     </script>
 </x-app-layout>

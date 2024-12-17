@@ -17,7 +17,7 @@ class SectionControllerSite extends Controller
     {
         $validated = $request->validate([
             'titre' => 'required|max:255',
-            'contenu' => 'required',
+            'contenu' => 'required|string|min:30',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -41,7 +41,7 @@ class SectionControllerSite extends Controller
     {
         $validated = $request->validate([
             'titre' => 'required|max:255',
-            'contenu' => 'required',
+            'contenu' => 'required|string|min:30',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -55,7 +55,7 @@ class SectionControllerSite extends Controller
 
         $section->update($validated);
 
-        return redirect()->route('admin.posts.edit', $post)
+        return redirect()->route('admin.posts.show', $post)
             ->with('success', 'Section mise à jour avec succès.');
     }
 

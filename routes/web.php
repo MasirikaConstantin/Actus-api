@@ -4,6 +4,7 @@ use App\Http\Controllers\GestionAdmin;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionControllerSite;
+use App\Http\Controllers\SocialController;
 use App\Models\Categorie;
 use App\Models\Post;
 use App\Models\Social;
@@ -30,7 +31,7 @@ Route::get('/posts', function () {
 })->middleware(['auth', 'verified','rolemanager:admin'])->name("posts");
 
 Route::get('/dashboard', function () {
-    return view('dashboard',['users'=>User::paginate(10),'categories'=>Categorie::all(),"posts"=>Post::paginate(10)]);
+    return view('dashboard',['users'=>User::paginate(10),'categories'=>Categorie::all(),"posts"=>Post::paginate(10),'socials'=> Social::paginate(10)]);
 })->middleware(['auth', 'verified','rolemanager:admin'])->name('dashboard');
 
 Route::middleware(['auth', 'verified','rolemanager:admin'])->group(function () {
@@ -107,4 +108,14 @@ Route::middleware(['auth', 'verified','rolemanager:admin'])->group(function () {
         Route::put('/posts/{post}/sections/{section}', [SectionControllerSite::class, 'update'])->name('sections.update');
         Route::delete('/posts/{post}/sections/{section}', [SectionControllerSite::class, 'destroy'])->name('sections.destroy');
     });
+});
+
+
+Route::middleware(['auth', 'verified','rolemanager:admin'])->group(function () {
+    Route::get('/admin/socials', [SocialController::class, 'index'])->name('admin.socials.index');
+    Route::get('/admin/socials/create', [SocialController::class, 'create'])->name('admin.socials.create');
+    Route::post('/admin/socials', [SocialController::class, 'store'])->name('admin.socials.store');
+    Route::get('/admin/socials/{social}/edit', [SocialController::class, 'edit'])->name('admin.socials.edit');
+    Route::patch('/admin/socials/{social}', [SocialController::class, 'update'])->name('admin.socials.update');
+    Route::delete('/admin/socials/{social}', [SocialController::class, 'destroy'])->name('admin.socials.destroy');
 });

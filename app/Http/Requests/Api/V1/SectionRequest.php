@@ -24,7 +24,7 @@ class SectionRequest extends FormRequest
         return [
             'post_id'=>'required|exists:posts,id',
             "titre"=>'required|string|max:255',
-            "contenu"=>'required|string',
+            "contenu"=>'required|string|min:30',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
 
         ];

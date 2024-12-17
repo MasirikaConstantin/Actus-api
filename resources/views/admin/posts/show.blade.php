@@ -27,7 +27,7 @@ URL: https://flowbite.com/docs/components/typography/
             </figure>
            @endif
             <p class="lead">{{ $post->introduction }}</p>
-            <p class="text-xl">{{ $post->contenu }}</p>
+            <p class="text-xl">{!! $post->contenu !!}</p>
 
 
 
@@ -41,7 +41,7 @@ URL: https://flowbite.com/docs/components/typography/
                 <figcaption>{{ $section->titre }}</figcaption>
                 </figure>
                 @endif
-                <p class="text-xl">{{ $section->contenu }}</p>
+                <p class="text-xl">{!! $section->contenu !!}</p>
 
 
                 <div class="flex space-x-2">
