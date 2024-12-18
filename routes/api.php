@@ -81,3 +81,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('favoris', FavoriController::class);
 });
 Route::get('/category/{category}',[PostController::class, 'lescategory']);
+Route::get('/caroussel',[PostController::class, 'caroussel']);

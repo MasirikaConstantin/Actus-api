@@ -50,7 +50,7 @@ class PostController extends Controller
     $limit = $validatedData['limit'] ?? 10;
     
     // Récupérer les posts avec les sections, les réactions, et les commentaires
-    $posts = Post::with(['sections', 'reactions', 'commentaires','categorie','user'])
+    $posts = Post::with(['sections', 'reactions', 'commentaires','categorie'])
         ->withCount([
             'reactions as total_reactions',
             'reactions as true_reactions' => function ($query) {
@@ -208,6 +208,30 @@ public function lescategory( string $category, Request $request){
         'message' => 'Liste des posts paginée récupérée avec succès.',
         'posts' => $posts,
         "category" => $category
+    ]);
+}
+
+public function caroussel(){
+    $posts = Post::whereNotNull('image') // Vérifie que l'image n'est pas nulle
+    ->with(['sections', 'reactions', 'commentaires', 'categorie'])
+    ->withCount([
+        'reactions as total_reactions',
+        'reactions as true_reactions' => function ($query) {
+            $query->where('reaction', true); // ou 1 selon votre logique
+        },
+        'reactions as false_reactions' => function ($query) {
+            $query->where('reaction', false); // ou 0 selon votre logique
+        },
+        'commentaires', // Comptage des commentaires pour chaque post
+        'favoris'
+    ])
+    ->orderBy('created_at', 'desc') // Trie par date de création en ordre décroissant
+    ->limit(5)
+    ->get();
+
+    return response()->json([
+        'message' => 'Liste des posts paginée récupérée avec succès.',
+        'posts' => $posts,
     ]);
 }
 }
