@@ -82,3 +82,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::get('/category/{category}',[PostController::class, 'lescategory']);
 Route::get('/caroussel',[PostController::class, 'caroussel']);
+Route::get('/populaire',[PostController::class, 'populaire']);

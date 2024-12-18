@@ -27,10 +27,6 @@ URL: https://flowbite.com/docs/components/typography/
             </figure>
            @endif
             <p class="lead">{{ $post->introduction }}</p>
-            <p class="text-xl">{!! $post->contenu !!}</p>
-
-
-
             <p class="text-xl text-gray-200">Les sections</p>
             @forelse ($post->sections as $section )
             <p class="text-xl text-gray-200">{{ $section->titre }}</p>

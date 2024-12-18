@@ -34,23 +34,7 @@
                           @enderror
                 </div>
     
-                <div class="mb-4">
-                    <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="contenu">
-                        Contenu
-                    </label>
-                    <input type="hidden" name="contenu" id="contenu" value="{{ old('contenu') }}">
-                            
-                    <!-- Editor Container -->
-                    <div class="mt-3">
-                        <div id="editor" class="bg-white rounded-lg min-h-[300px]">
-                        </div>
-                    </div>
-                    @error("contenu")
-                        <div class="p-4 mb-4 mt-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                            <span class="font-medium">Erreur alert!</span> {{ $message }}.
-                        </div>
-                    @enderror
-                </div>
+                
     
                 <div class="mb-4">
                     <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="image">
@@ -127,37 +111,4 @@
         </div>
     </div>
     
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-<script>
-    const quill = new Quill('#editor', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                [{ 'header': [1, 2, 3, false] }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ 'color': [] }, { 'background': [] }],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                ['link', 'code-block'],
-                ['clean']
-            ]
-        },
-        placeholder: 'Entrer du contenus plus stylé ici ** Obligatoire **'
-    });
-
-    // Récupérer les anciennes données
-    const oldContent = document.getElementById('contenu').value;
-    if (oldContent) {
-        quill.root.innerHTML = oldContent;
-    }
-
-    // Méthode 1 : Utilisation d'un formulaire classique
-    document.getElementById('blogForm').onsubmit = function() {
-        // Récupère le contenu HTML de l'éditeur
-        var contenu = quill.root.innerHTML;
-        // Met à jour le champ caché
-        document.getElementById('contenu').value = contenu;
-        return true;
-    };
-</script>
-
 </x-app-layout>

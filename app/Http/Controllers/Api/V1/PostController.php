@@ -212,8 +212,9 @@ public function lescategory( string $category, Request $request){
 }
 
 public function caroussel(){
-    $posts = Post::whereNotNull('image') // Vérifie que l'image n'est pas nulle
-    ->with(['sections', 'reactions', 'commentaires', 'categorie'])
+    $posts = Post::whereNotNull('image')
+    ->select('id', 'titre','introduction','categorie_id') // Vérifie que l'image n'est pas nulle
+    ->with(['categorie'])
     ->withCount([
         'reactions as total_reactions',
         'reactions as true_reactions' => function ($query) {
@@ -222,16 +223,29 @@ public function caroussel(){
         'reactions as false_reactions' => function ($query) {
             $query->where('reaction', false); // ou 0 selon votre logique
         },
-        'commentaires', // Comptage des commentaires pour chaque post
-        'favoris'
     ])
     ->orderBy('created_at', 'desc') // Trie par date de création en ordre décroissant
     ->limit(5)
     ->get();
 
     return response()->json([
-        'message' => 'Liste des posts paginée récupérée avec succès.',
+        'message' => 'Liste des posts du caroussel récupérée avec succès.',
         'posts' => $posts,
+    ]);
+}
+
+public function populaire(){
+    
+    $mostPopularPost = Post::
+    select('id', 'titre','introduction','categorie_id') // Vérifie que l'image n'est pas nulle
+    ->withCount(['reactions']) // Compte le nombre total de réactions
+    ->orderBy('reactions_count', 'desc') // Trie par le nombre de réactions en ordre décroissant
+    ->limit(5)->get(); // Récupère le post le plus populaire
+
+
+    return response()->json([
+        'message' => 'Liste des posts les plus récupérée avec succès.',
+        'posts' => $mostPopularPost,
     ]);
 }
 }
