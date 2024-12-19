@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Categorie;
+use App\Models\Nature;
 use App\Models\Type;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->foreignIdFor(Type::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Categorie::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Nature::class)->constrained()->cascadeOnDelete();
             $table->boolean('status')->default(false);
             $table->timestamps();
             $table->softDeletes();

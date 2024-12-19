@@ -50,7 +50,8 @@ class PostController extends Controller
     $limit = $validatedData['limit'] ?? 10;
     
     // Récupérer les posts avec les sections, les réactions, et les commentaires
-    $posts = Post::with(['sections', 'reactions', 'commentaires','categorie'])
+    $posts = Post::select('id','titre',"slug",'introduction','image', 'temps','type_id','categorie_id', 'user_id', 'status', "created_at", 'vues')
+    ->with(['sections', 'commentaires','categorie'])
         ->withCount([
             'reactions as total_reactions',
             'reactions as true_reactions' => function ($query) {
