@@ -91,6 +91,22 @@
                     </div>
                     @enderror
                 </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="nature_id">
+                        Nature
+                    </label>
+                    <select name="nature_id" id="nature_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 dark:bg-gray-800 leading-tight focus:outline-none focus:shadow-outline" required>
+                        @foreach($natures as $nature)
+                            <option value="{{ $nature->id }}">{{ $nature->nom }}</option>
+                        @endforeach
+                    </select>
+                    @error("nature_id")
+                    <div class="p-4 mb-4 mt-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                      <span class="font-medium">Erreur alert!</span> {{ $message }}.
+                    </div>
+                    @enderror
+                </div>
     
                 <div class="mb-4">
                     <label class="flex items-center">

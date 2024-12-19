@@ -17,6 +17,7 @@ class Post extends Model
         'type_id',
         'categorie_id',
         'user_id',
+        'nature_id',
         'status',
         'vues'
     ];

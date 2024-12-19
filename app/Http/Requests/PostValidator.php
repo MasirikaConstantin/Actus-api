@@ -30,6 +30,7 @@ class PostValidator extends FormRequest
                 'slug'=>['required'],
                 'temps' => 'nullable|numeric',
                 'type_id' => 'required|exists:types,id',
+                'nature_id' => 'required|exists:natures,id',
                 'categorie_id' => 'required|exists:categories,id',
                 'status' => 'boolean'
             ];

@@ -6,6 +6,7 @@ use App\Http\Requests\PostValidator;
 use App\Models\Post;
 use App\Models\Type;
 use App\Models\Categorie;
+use App\Models\Nature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,9 +20,10 @@ class PostController extends Controller
 
     public function create()
     {
-        $types = Type::all();
-        $categories = Categorie::all();
-        return view('admin.posts.create', compact('types', 'categories'));
+        $types = Type::select("id","etat")->get();
+        $categories = Categorie::select("id","name")->get();
+        $natures=Nature::select("id","nom")->get();
+        return view('admin.posts.create', compact('types', 'categories',"natures"));
     }
 
     public function store(PostValidator $request)
@@ -44,9 +46,10 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        $types = Type::all();
-        $categories = Categorie::all();
-        return view('admin.posts.edit', compact('post', 'types', 'categories'));
+        $types = Type::select("id","etat")->get();
+        $categories = Categorie::select("id","name")->get();
+        $natures=Nature::select("id","nom")->get();
+        return view('admin.posts.edit', compact('post', 'types', 'categories','natures'));
     }
 
     public function update(PostValidator $request, Post $post)
