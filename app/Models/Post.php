@@ -31,6 +31,10 @@ class Post extends Model
     {
         return $this->belongsTo(Categorie::class);
     }
+    public function nature()
+    {
+        return $this->belongsTo(Nature::class);
+    }
 
     public function sections()
     {

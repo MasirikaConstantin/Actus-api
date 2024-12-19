@@ -16,30 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    /*public function index() {
-
-        $validatedData = $request->validate([
-            'limit' => 'nullable|integer|min:1|max:100'
-        ]);
     
-        $limit = $validatedData['limit'] ?? 10;
-    
-        // Utilisation de la pagination
-        $posts = Post::with('sections')->paginate($limit);
-    
-        return response()->json([
-            'message' => 'Liste des posts paginée récupérée avec succès.',
-            'posts' => $posts
-        ]);
-         // Version avec pagination (recommandée)
-         $posts = Post::with(['categorie', 'type', 'user',"sections"])
-         ->orderBy('created_at', 'desc')
-         ->get();
-
-         return response()->json([
-            'posts' => $posts
-        ]);
-    }*/
 
     public function index(Request $request)
 {
@@ -62,7 +39,7 @@ class PostController extends Controller
             },
             'commentaires', // Comptage des commentaires pour chaque post
             'favoris'
-        ])
+        ])->orderBy('created_at', 'desc')
         ->paginate($limit);
     
     return response()->json([
@@ -202,7 +179,7 @@ public function lescategory( string $category, Request $request){
             },
             'commentaires', // Comptage des commentaires pour chaque post
             'favoris'
-        ])
+        ])->orderBy('created_at', 'desc')
         ->paginate($limit);
     
     return response()->json([
@@ -247,6 +224,23 @@ public function populaire(){
     return response()->json([
         'message' => 'Liste des posts les plus récupérée avec succès.',
         'posts' => $mostPopularPost,
+    ]);
+}
+
+public function sponsorise(){
+
+        $sponsorisePost = Post::
+        select('id', 'titre', 'introduction', 'categorie_id', 'nature_id')
+        ->whereHas('nature', function($query) {
+            $query->where('nom', 'Sponsorise');
+        })->with("categorie")
+        ->orderBy('created_at', 'desc')
+        ->limit(5)
+        ->get();
+
+    return response()->json([
+        'message' => 'Liste des posts sponsorisés récupérée avec succès.',
+        'posts' => $sponsorisePost,
     ]);
 }
 }

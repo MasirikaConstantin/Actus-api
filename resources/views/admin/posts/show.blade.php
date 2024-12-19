@@ -21,6 +21,7 @@ URL: https://flowbite.com/docs/components/typography/
                 </address>
                 <h1 class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{{ $post->titre }}</h1>
             </header>
+            {{ $post->nature->nom }}
            @if ($post->image)
            <figure  ><img class="rounded-xl" src="{{ $post->imageUrl() }}" alt="">
             <figcaption>{{ $post->titre }}</figcaption>
