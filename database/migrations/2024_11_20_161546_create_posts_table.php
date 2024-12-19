@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('titre');
             $table->string('slug')->unique();
             $table->text('introduction');
-            $table->text('contenu')->nullable();
             $table->string('image')->nullable();
             $table->double('temps')->nullable(); // en minutes
             $table->foreignIdFor(Type::class)->constrained()->cascadeOnDelete();

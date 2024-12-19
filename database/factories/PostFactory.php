@@ -27,7 +27,6 @@ class PostFactory extends Factory
             'titre' => $this->faker->sentence(6), // Titre aléatoire
             'slug' => Str::slug($this->faker->sentence(3)), // Génère un slug à partir du titre
             'introduction' => $this->faker->text(200), // Texte d'introduction aléatoire
-            'contenu' => $this->faker->paragraphs(3, true), // Contenu de plusieurs paragraphes
             'temps' => $this->faker->numberBetween(1, 60), // Temps en minutes
             'type_id' => Type::inRandomOrder()->value('id') ?? Type::factory(), // ID valide ou création d'un nouveau Type
             'categorie_id' => Categorie::inRandomOrder()->value('id') ?? Categorie::factory(), // ID valide ou création d'une nouvelle Catégorie
