@@ -123,10 +123,12 @@
             
                         <div class="mb-4">
                             <label class="flex items-center">
-                                <input type="checkbox" name="status" value="1" class="form-checkbox dark:bg-gray-800 dark:border-gray-600" {{ old('status') ? 'checked' : '' }}>
+                                <input type="checkbox" name="status" value="1" class="form-checkbox dark:bg-gray-800 dark:border-gray-600" {{ $post->status == 1 ? 'checked' : '' }}                                >
                                 <span class="ml-2 text-gray-700 dark:text-gray-300">Publier immédiatement</span>
                             </label>
+
                         </div>
+
             
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
