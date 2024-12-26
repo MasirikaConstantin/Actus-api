@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\CategorieValidator;
+use App\Http\Resources\CategorieRessource;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
 
@@ -16,9 +17,8 @@ class CategorieController extends Controller
     {
         $category = Categorie::orderBy('created_at', 'desc')->get();
 
-         return response()->json([
-            'category' => $category
-        ]);
+        return CategorieRessource::collection($category);
+         
     }
 
     /**
@@ -42,9 +42,10 @@ class CategorieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Categorie $id)
     {
-        //
+        return new CategorieRessource($id);
+        
     }
 
     /**

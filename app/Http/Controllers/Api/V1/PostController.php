@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\PostValidator;
 use App\Http\Requests\Api\V1\ReactionValidator;
+use App\Http\Resources\CarousselRessource;
+use App\Http\Resources\RessourcePostAll;
 use App\Models\Categorie;
 use App\Models\Post;
 use App\Models\Reaction;
@@ -182,6 +184,7 @@ public function lescategory( string $category, Request $request){
         ])->orderBy('created_at', 'desc')
         ->paginate($limit);
     
+        return RessourcePostAll::collection($posts);
     return response()->json([
         'message' => 'Liste des posts paginée récupérée avec succès.',
         'posts' => $posts,
@@ -191,8 +194,7 @@ public function lescategory( string $category, Request $request){
 
 public function caroussel(){
     $posts = Post::whereNotNull('image')
-    ->select('id', 'titre','introduction','categorie_id') // Vérifie que l'image n'est pas nulle
-    ->with(['categorie'])
+    ->with(['categorie','commentaires'])
     ->withCount([
         'reactions as total_reactions',
         'reactions as true_reactions' => function ($query) {
@@ -201,15 +203,14 @@ public function caroussel(){
         'reactions as false_reactions' => function ($query) {
             $query->where('reaction', false); // ou 0 selon votre logique
         },
+        'commentaires', // Comptage des commentaires pour chaque post
+
     ])
     ->orderBy('created_at', 'desc') // Trie par date de création en ordre décroissant
     ->limit(5)
     ->get();
 
-    return response()->json([
-        'message' => 'Liste des posts du caroussel récupérée avec succès.',
-        'posts' => $posts,
-    ]);
+    return  CarousselRessource::collection($posts);
 }
 
 public function populaire(){
@@ -243,4 +244,19 @@ public function sponsorise(){
         'posts' => $sponsorisePost,
     ]);
 }
+
+public function plusvue(){
+    
+    $mostPopularPost = Post::
+    select('id', 'titre','introduction','categorie_id',"vues") // Vérifie que l'image n'est pas nulle
+    ->orderBy('vues', 'desc') // Trie par le nombre de réactions en ordre décroissant
+    ->limit(10)->get(); // Récupère le post le plus populaire
+
+
+    return response()->json([
+        'message' => 'Liste des posts les plus récupérée avec succès.',
+        'posts' => $mostPopularPost,
+    ]);
 }
+}
+

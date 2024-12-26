@@ -429,12 +429,12 @@ function confirmRoleChange(id, name, currentRole) {
     }
 }
 
-function confirmDelete(id, name) {
-    const confirmed = confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${name} ?`);
-    if (confirmed) {
-        document.getElementById(`delete-form-${id}`).submit();
+    function confirmDelete(id, name) {
+        const confirmed = confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${name} ?`);
+        if (confirmed) {
+            document.getElementById(`delete-form-${id}`).submit();
+        }
     }
-}
 </script>
 
     <script>

@@ -84,3 +84,4 @@ Route::get('/category/{category}',[PostController::class, 'lescategory']);
 Route::get('/caroussel',[PostController::class, 'caroussel']);
 Route::get('/populaire',[PostController::class, 'populaire']);
 Route::get('/sponsorise',[PostController::class, 'sponsorise']);
+Route::get('/plusvue',[PostController::class, 'plusvue']);
