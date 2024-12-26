@@ -26,7 +26,7 @@ class PostValidator extends FormRequest
         return [
                 'titre' => 'required|string|min:5',
                 'introduction' => 'required|string|min:5',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,JPEG,PNG,JPG,GIF|max:4048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,JPEG,PNG,JPG,GIF,svg,SVG|max:4048',
                 'slug'=>['required'],
                 'temps' => 'nullable|numeric',
                 'type_id' => 'required|exists:types,id',
