@@ -119,3 +119,7 @@ Route::middleware(['auth', 'verified','rolemanager:admin'])->group(function () {
     Route::patch('/admin/socials/{social}', [SocialController::class, 'update'])->name('admin.socials.update');
     Route::delete('/admin/socials/{social}', [SocialController::class, 'destroy'])->name('admin.socials.destroy');
 });
+
+Route::get("/mes",function () {
+    return view('users',['users' =>User::all()]);
+});
