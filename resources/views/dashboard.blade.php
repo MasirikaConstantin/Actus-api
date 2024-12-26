@@ -92,7 +92,7 @@
                                         <th class="px-4 py-3 text-left">Titre</th>
                                         <th class="px-4 py-3 text-left">Catégorie</th>
                                         <th class="px-4 py-3 text-left">Type</th>
-                                        <th class="px-4 py-3 text-left">Date</th>
+                                        <th class="px-4 py-3 text-left">Etat</th>
                                         <th class="px-4 py-3 text-left">Actions</th>
                                     </tr>
                                 </thead>

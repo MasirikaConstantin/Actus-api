@@ -31,6 +31,7 @@ class PostController extends Controller
     // Récupérer les posts avec les sections, les réactions, et les commentaires
     $posts = Post::select('id','titre',"slug",'introduction','image', 'temps','type_id','categorie_id', 'user_id', 'status', "created_at", 'vues')
     ->with(['sections', 'commentaires','categorie'])
+    ->where('status','=',1)
         ->withCount([
             'reactions as total_reactions',
             'reactions as true_reactions' => function ($query) {
@@ -110,6 +111,7 @@ public function show(Post $post)
         $post->incrementViewsCount();
 
         $post->load(['sections', 'reactions', 'commentaires','categorie','user'])
+    ->where('status','=',1)
         ->withCount([
             'reactions as total_reactions',
             'reactions as true_reactions' => function ($query) {
@@ -195,6 +197,8 @@ public function lescategory( string $category, Request $request){
 public function caroussel(){
     $posts = Post::whereNotNull('image')
     ->with(['categorie','commentaires'])
+    ->where('status','=',1)
+
     ->withCount([
         'reactions as total_reactions',
         'reactions as true_reactions' => function ($query) {
@@ -218,6 +222,8 @@ public function populaire(){
     $mostPopularPost = Post::
     select('id', 'titre','introduction','categorie_id') // Vérifie que l'image n'est pas nulle
     ->withCount(['reactions']) // Compte le nombre total de réactions
+    ->where('status','=',1)
+
     ->orderBy('reactions_count', 'desc') // Trie par le nombre de réactions en ordre décroissant
     ->limit(5)->get(); // Récupère le post le plus populaire
 
@@ -235,6 +241,8 @@ public function sponsorise(){
         ->whereHas('nature', function($query) {
             $query->where('nom', 'Sponsorise');
         })->with("categorie")
+    ->where('status','=',1)
+
         ->orderBy('created_at', 'desc')
         ->limit(5)
         ->get();
@@ -248,7 +256,8 @@ public function sponsorise(){
 public function plusvue(){
     
     $mostPopularPost = Post::
-    select('id', 'titre','introduction','categorie_id',"vues") // Vérifie que l'image n'est pas nulle
+    select('id', 'titre','introduction','categorie_id',"vues",'status') 
+    ->where('status','=',1)
     ->orderBy('vues', 'desc') // Trie par le nombre de réactions en ordre décroissant
     ->limit(10)->get(); // Récupère le post le plus populaire
 
