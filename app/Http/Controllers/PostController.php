@@ -84,6 +84,7 @@ class PostController extends Controller
             ->with('success', 'Article supprimé avec succès.');
     }
     public function show(Post $post){
+        //dd($post);
         return view('admin.posts.show',compact('post'));
     }
     public function newsection(Post $post){

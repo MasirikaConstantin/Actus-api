@@ -70,10 +70,17 @@ public function favoris(){
         return $this->belongsTo(User::class);
     }
 
-    public function imageUrl(){
-        //return $this->image ? asset('storage/' . $this->image) : null;
-        return Storage::disk('public')->url($this->image); 
+    
+    public function imageUrl()
+{
+    // Vérifie si l'image commence déjà par http ou https
+    if (str_starts_with($this->image, 'http')) {
+        return $this->image;
     }
+    
+    // Sinon, retourne l'URL avec Storage
+    return Storage::disk('public')->url($this->image);
+}
 
     public function incrementViewsCount()
     {
