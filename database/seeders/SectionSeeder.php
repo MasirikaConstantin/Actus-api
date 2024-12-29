@@ -16,6 +16,6 @@ class SectionSeeder extends Seeder
         }
 
         // Créez des sections liées aux posts existants
-        Section::factory(50)->create(); // Génère 50 sections aléatoires
+        Section::factory(150)->create(); // Génère 50 sections aléatoires
     }
 }
