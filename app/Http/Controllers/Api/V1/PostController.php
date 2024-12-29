@@ -220,13 +220,12 @@ public function caroussel(){
 public function populaire(){
     
     $mostPopularPost = Post::
-    select('id', 'titre','introduction','categorie_id') // Vérifie que l'image n'est pas nulle
-    ->withCount(['reactions']) // Compte le nombre total de réactions
+    select('id', 'titre','introduction','categorie_id','image') // image est nécessaire car utilisé par l'accesseur
+    ->withCount(['reactions'])
     ->where('status','=',1)
-
-    ->orderBy('reactions_count', 'desc') // Trie par le nombre de réactions en ordre décroissant
-    ->limit(5)->get(); // Récupère le post le plus populaire
-
+    ->orderBy('reactions_count', 'desc')
+    ->limit(5)
+    ->get();
 
     return response()->json([
         'message' => 'Liste des posts les plus récupérée avec succès.',

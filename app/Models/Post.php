@@ -27,6 +27,15 @@ class Post extends Model
         'vues'
     ];
    
+    protected $appends = ['image'];
+
+    public function getImageAttribute()
+{
+    if ($this->attributes['image']) {
+        return env('APP_URL') . '/storage/' . $this->attributes['image'];
+    }
+    return null;
+}
     public function type()
     {
         return $this->belongsTo(Type::class);
@@ -71,4 +80,5 @@ public function favoris(){
         $this->vues++;
         $this->save();
     }
+    
 }
