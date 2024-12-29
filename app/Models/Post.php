@@ -82,6 +82,13 @@ public function favoris(){
     return Storage::disk('public')->url($this->image);
 }
 
+public function imageUrls()
+{
+    return Storage::disk('public')->url($this->image);
+
+}
+
+
     public function incrementViewsCount()
     {
         $this->vues++;

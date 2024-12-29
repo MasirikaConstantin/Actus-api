@@ -236,7 +236,7 @@ public function populaire(){
 public function sponsorise(){
 
         $sponsorisePost = Post::
-        select('id', 'titre', 'introduction', 'categorie_id', 'nature_id','image')
+        select('id', 'titre', 'introduction', 'categorie_id', 'nature_id','image',"status")
         ->whereHas('nature', function($query) {
             $query->where('nom', 'Sponsorise');
         })->with("categorie")
@@ -264,6 +264,32 @@ public function plusvue(){
     return response()->json([
         'message' => 'Liste des posts les plus récupérée avec succès.',
         'posts' => $mostPopularPost,
+    ]);
+}
+
+public function search(Request $request)
+{
+    $query = $request->get('query');
+
+    $posts = Post::select('posts.id', 'posts.titre', 'posts.introduction', 'posts.image', 'posts.categorie_id')
+        ->join('categories', 'posts.categorie_id', '=', 'categories.id')
+        ->where('posts.status', 1)
+        ->where(function($q) use ($query) {
+            $q->where('posts.titre', 'LIKE', "%{$query}%")
+              ->orWhere('posts.introduction', 'LIKE', "%{$query}%")
+              ->orWhere('categories.name', 'LIKE', "%{$query}%");
+        })
+        ->with('categorie:id,name')
+        ->limit(5)
+        ->get();
+
+    // Ajouter l'URL de l'image à chaque post
+   // $posts->each(function($post) {
+     //   $post->image = $post->image;
+   // });
+
+    return response()->json([
+        'posts' => $posts
     ]);
 }
 }
