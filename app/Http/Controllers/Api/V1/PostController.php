@@ -236,7 +236,7 @@ public function populaire(){
 public function sponsorise(){
 
         $sponsorisePost = Post::
-        select('id', 'titre', 'introduction', 'categorie_id', 'nature_id')
+        select('id', 'titre', 'introduction', 'categorie_id', 'nature_id','image')
         ->whereHas('nature', function($query) {
             $query->where('nom', 'Sponsorise');
         })->with("categorie")
