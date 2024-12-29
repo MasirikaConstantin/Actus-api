@@ -280,7 +280,7 @@ public function search(Request $request)
               ->orWhere('categories.name', 'LIKE', "%{$query}%");
         })
         ->with('categorie:id,name')
-        ->limit(5)
+        ->limit(10)
         ->get();
 
     // Ajouter l'URL de l'image à chaque post
