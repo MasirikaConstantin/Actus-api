@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Titre</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Image</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Catégorie</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Type</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Status</th>
@@ -31,6 +32,18 @@
                 @foreach($posts as $post)
                     <tr>
                         <td class="px-6 py-4 border-b">{{ $post->titre }}</td>
+                        <td class="px-6 py-4 border-b">
+
+                            <div class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
+                               @if ( $post->image)
+                               <img class="mr-4 w-16 h-16 rounded-full" src="{{ $post->imageurl() }}" alt="Jese Leos">
+                                   
+                               @else
+                                   
+                               @endif
+                            </div>
+                        </td>
+                        
                         <td class="px-6 py-4 border-b">{{ $post->categorie->name }}</td>
                         <td class="px-6 py-4 border-b">{{ $post->type->id }}</td>
                         <td class="px-6 py-4 border-b">
