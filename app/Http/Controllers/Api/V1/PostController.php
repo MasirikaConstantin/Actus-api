@@ -120,7 +120,7 @@ public function show(Post $post)
         ->with([
             'sections', 
             'reactions', 
-            'commentaires', 
+            'commentaires.user',  // Charger l'utilisateur associé à chaque commentaire
             'categorie', 
             'user'
         ])
