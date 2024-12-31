@@ -8,6 +8,7 @@ use App\Http\Requests\Api\V1\ReactionValidator;
 use App\Http\Resources\CarousselRessource;
 use App\Http\Resources\FavorisResource;
 use App\Http\Resources\RessourcePostAll;
+use App\Http\Resources\UnPostRessource;
 use App\Models\Categorie;
 use App\Models\Favori;
 use App\Models\Post;
@@ -138,9 +139,8 @@ public function show(Post $post)
         ->firstOrFail();
 
     // Retourner les données au format JSON
-    return response()->json([
-        'post' => $post
-    ]);
+    return new UnPostRessource($post);
+   
 }
 
 
