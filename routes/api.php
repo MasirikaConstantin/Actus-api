@@ -87,3 +87,4 @@ Route::get('/sponsorise',[PostController::class, 'sponsorise']);
 Route::get('/plusvue',[PostController::class, 'plusvue']);
 Route::get('/search', [PostController::class, 'search']);
 Route::get('/mesfavoris/{user}', [PostController::class, 'mesfavoris']);
+Route::middleware('auth:sanctum')->get('/posts/{post}/has-reacted', [PostController::class, 'hasReacted']);

@@ -22,7 +22,7 @@ class CommentaireValidator extends FormRequest
     public function rules(): array
     {
         return [
-            'contenu' => ['required', 'string', 'max:255'],
+            'contenu' => ['required', 'string', 'min:1'],
             'user_id' => ['required', 'integer', 'exists:users,id'],
             'post_id' => ['required', 'integer', 'exists:posts,id'],
         ];

@@ -313,5 +313,33 @@ public function mesfavoris(User $user) {
     return FavorisResource::collection($favoris);
    
 }
+
+
+public function hasReacted(Request $request, Post $post)
+{
+
+    $validatedData = $request->validate([
+        'user_id'=>'required|exists:users,id',
+        "post_id"=>'required|exists:posts,id'
+    ]);
+    $user = User::find($validatedData['user_id']);
+
+    if (!$user) {
+        return response()->json([
+            'message' => 'Utilisateur non authentifié'
+        ], 401);
+    }
+
+    // Vérifier si l'utilisateur a réagi à ce post
+    //$hasReacted = $post->reactions()->where('user_id', $user->id)->exists();
+    $existingReaction = $user->reactions()->where('post_id', $validatedData['post_id'])->exists();
+
+
+    return response()->json([
+        'has_reacted' => $existingReaction
+    ]);
+
+}
+
 }
 
