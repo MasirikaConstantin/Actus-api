@@ -62,8 +62,12 @@ class Post extends Model
 public function commentaires(){
     return $this->hasMany(Commentaire::class);
 }
-public function favoris(){
+public function favoriss(){
     return $this->hasMany(Favori::class);
+}
+public function favoris()
+{
+    return $this->belongsToMany(User::class, 'favoris')->withTimestamps();
 }
     public function user()
     {

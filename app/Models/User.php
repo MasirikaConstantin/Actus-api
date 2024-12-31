@@ -51,8 +51,12 @@ class User extends Authenticatable
     }
     
 
-    public function favoris()
+    public function favoriss()
     {
         return $this->hasMany(Favori::class);
     }
+    public function favoris()
+{
+    return $this->belongsToMany(Post::class, 'favoris')->withTimestamps();
+}
 }

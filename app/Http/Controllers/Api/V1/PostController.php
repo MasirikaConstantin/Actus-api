@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\PostValidator;
 use App\Http\Requests\Api\V1\ReactionValidator;
 use App\Http\Resources\CarousselRessource;
+use App\Http\Resources\FavorisResource;
 use App\Http\Resources\RessourcePostAll;
 use App\Models\Categorie;
+use App\Models\Favori;
 use App\Models\Post;
 use App\Models\Reaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -107,11 +110,20 @@ public function login(Request $request)
     ]);
 }
 public function show(Post $post)
-    {
-        $post->incrementViewsCount();
+{
+    // Incrementer le compteur de vues
+    $post->incrementViewsCount();
 
-        $post->load(['sections', 'reactions', 'commentaires','categorie','user'])
-    ->where('status','=',1)
+    // Charger le post avec les relations et les comptages nécessaires
+    $post = Post::where('id', $post->id)
+        ->where('status', '=', 1)
+        ->with([
+            'sections', 
+            'reactions', 
+            'commentaires', 
+            'categorie', 
+            'user'
+        ])
         ->withCount([
             'reactions as total_reactions',
             'reactions as true_reactions' => function ($query) {
@@ -120,16 +132,17 @@ public function show(Post $post)
             'reactions as false_reactions' => function ($query) {
                 $query->where('reaction', false); // ou 0 selon votre logique
             },
-            'commentaires', // Comptage des commentaires pour chaque post
-            'favoris'
-        ])->get();
+            'commentaires', // Comptage des commentaires
+            'favoris' // Comptage des favoris
+        ])
+        ->firstOrFail();
 
-        //$post->load(['categorie', 'type', 'user']);
-        
-        return response()->json([
-            'post' => $post
-        ]);
-    }
+    // Retourner les données au format JSON
+    return response()->json([
+        'post' => $post
+    ]);
+}
+
 
 
     public function Reaction(Post $post, ReactionValidator $request) {
@@ -291,6 +304,14 @@ public function search(Request $request)
     return response()->json([
         'posts' => $posts
     ]);
+}
+
+public function mesfavoris(User $user) {
+  //  $user = User::find($userId); // Remplacez $userId par l'ID de l'utilisateur
+  $favoris = $user->favoris()->with(['categorie','nature'])->get();
+  // Collection de posts favoris
+    return FavorisResource::collection($favoris);
+   
 }
 }
 

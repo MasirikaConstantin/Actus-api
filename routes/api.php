@@ -86,3 +86,4 @@ Route::get('/populaire',[PostController::class, 'populaire']);
 Route::get('/sponsorise',[PostController::class, 'sponsorise']);
 Route::get('/plusvue',[PostController::class, 'plusvue']);
 Route::get('/search', [PostController::class, 'search']);
+Route::get('/mesfavoris/{user}', [PostController::class, 'mesfavoris']);
