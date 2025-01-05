@@ -13,7 +13,7 @@ class UpdateSectionImagesSeeder extends Seeder
      */
     public function run(): void
     {
-        $images = [
+        /*$images = [
             'posts/0wEHk2n0yt8yLujtnOK7gbUt1dQbc93TdwNF02VB.png',
             'posts/2FZiRkC7sQ53qYPQ5IkXmJ2kvhmplWvvMsinDsJH.jpg',
             'posts/46XVLpwroQDxByAnwFmbpXh7V3BbtSk7CA7pdxmt.svg',
@@ -49,7 +49,8 @@ class UpdateSectionImagesSeeder extends Seeder
             'posts/TaMI30WWP5PklDusJcxymhqJyUP76gGc8EE3XfOt.png',
             'posts/v6YDPfJdXwDhAHC02132qULBaf1AjvmCDd84FE7a.jpg',
             'posts/XWdCaNO3ekCZIZ7mRcbg94MGrDuNW36Dt7nqIREI.png',
-        ];
+        ];*/
+        $images=[];
 
         // Récupérer tous les posts
         $sections = DB::table('sections')->get();
