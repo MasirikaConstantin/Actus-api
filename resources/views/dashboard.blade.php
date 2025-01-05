@@ -223,9 +223,7 @@
                             </table>
                         </div>
                 
-                        <div class="flex justify-end mt-4">
-                            {{ $categories->links() }}
-                        </div>
+                        
                     </div>
                 </div>
                 
