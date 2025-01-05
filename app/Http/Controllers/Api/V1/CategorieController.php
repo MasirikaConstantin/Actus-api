@@ -15,7 +15,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $category = Categorie::orderBy('created_at', 'desc')->limit(5)->get();
+        $category = Categorie::orderBy('created_at', 'desc')->get();
 
         return CategorieRessource::collection($category);
          
