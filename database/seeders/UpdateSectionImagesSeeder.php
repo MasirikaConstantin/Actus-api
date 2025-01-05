@@ -49,8 +49,8 @@ class UpdateSectionImagesSeeder extends Seeder
             'posts/TaMI30WWP5PklDusJcxymhqJyUP76gGc8EE3XfOt.png',
             'posts/v6YDPfJdXwDhAHC02132qULBaf1AjvmCDd84FE7a.jpg',
             'posts/XWdCaNO3ekCZIZ7mRcbg94MGrDuNW36Dt7nqIREI.png',
-        ];*/
-        $images=[];
+        ];
+        
 
         // Récupérer tous les posts
         $sections = DB::table('sections')->get();
@@ -61,6 +61,7 @@ class UpdateSectionImagesSeeder extends Seeder
             DB::table('sections')
                 ->where('id', $section->id)
                 ->update(['image' => $randomImage]);
-        }
+        }*/
+        DB::table('sections')->update(['image' => null]);
     }
 }
