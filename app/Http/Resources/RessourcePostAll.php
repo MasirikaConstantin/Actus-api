@@ -57,7 +57,6 @@ class RessourcePostAll extends JsonResource
                     "user_name"=> $commentaire->user->name,
                     "post_id"=> $commentaire->post_id,
                     "created_at"=> $commentaire->created_at,
-                    "updated_at"=> $commentaire->updated_at,
                 ];
             }),
             "categorie"=>
