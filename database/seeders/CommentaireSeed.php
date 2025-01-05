@@ -20,6 +20,6 @@ class CommentaireSeed extends Seeder
         }
 
         // Créez des sections liées aux posts existants
-        Commentaire::factory(150)->create(); // Génère 50 sections aléatoires
+        Commentaire::factory(1550)->create(); // Génère 50 sections aléatoires
     }
 }
