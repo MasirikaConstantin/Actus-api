@@ -112,7 +112,7 @@ public function login(Request $request)
 }
 public function show(Post $post)
 {
-    // Incrementer le compteur de vues
+    // Incrémenter le compteur de vues
     $post->incrementViewsCount();
 
     // Charger le post avec les relations et les comptages nécessaires
@@ -121,7 +121,10 @@ public function show(Post $post)
         ->with([
             'sections', 
             'reactions', 
-            'commentaires.user',  // Charger l'utilisateur associé à chaque commentaire
+            'commentaires' => function ($query) {
+                $query->orderBy('created_at', 'desc'); // Trier les commentaires par date décroissante
+            }, 
+            'commentaires.user', // Charger l'utilisateur associé à chaque commentaire
             'categorie', 
             'user'
         ])
@@ -140,7 +143,6 @@ public function show(Post $post)
 
     // Retourner les données au format JSON
     return new UnPostRessource($post);
-   
 }
 
 

@@ -22,8 +22,6 @@ class CommentaireFactory extends Factory
             'post_id' => Post::inRandomOrder()->value('id') ?? Post::factory(), // ID valide ou nouveau Post
             'user_id' => User::inRandomOrder()->value('id') ?? User::factory(), // ID valide ou nouveau Post
             'contenu' => $this->faker->paragraphs(3, true), // Contenu en paragraphes
-            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'), // Date de création
-            'updated_at' => $this->faker->dateTimeBetween('-6 months', 'now'), // Dernière mise à jour
         
         ];
     }
