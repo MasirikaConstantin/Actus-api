@@ -19,4 +19,11 @@ class Section extends Model
         //return $this->image ? asset('storage/' . $this->image) : null;
         return Storage::disk('public')->url($this->image); 
     }
+    public function getImageAttribute()
+{
+    if ($this->attributes['image']) {
+        return env('APP_URL') . '/storage/' . $this->attributes['image'];
+    }
+    return null;
+}
 }
