@@ -2,18 +2,17 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 
-class UpdatePostsImagesSeeder extends Seeder
+class UpdateSectionImagesSeeder extends Seeder
 {
     /**
-     * Exécute le seeder.
+     * Run the database seeds.
      */
     public function run(): void
     {
-        // Liste des images disponibles
         $images = [
             'posts/0wEHk2n0yt8yLujtnOK7gbUt1dQbc93TdwNF02VB.png',
             'posts/2FZiRkC7sQ53qYPQ5IkXmJ2kvhmplWvvMsinDsJH.jpg',
@@ -44,13 +43,13 @@ class UpdatePostsImagesSeeder extends Seeder
         ];
 
         // Récupérer tous les posts
-        $posts = DB::table('posts')->get();
+        $sections = DB::table('sections')->get();
 
         // Parcourir chaque post et mettre à jour l'image de manière aléatoire
-        foreach ($posts as $post) {
+        foreach ($sections as $section) {
             $randomImage = $images[array_rand($images)]; // Sélectionner une image aléatoire
-            DB::table('posts')
-                ->where('id', $post->id)
+            DB::table('sections')
+                ->where('id', $section->id)
                 ->update(['image' => $randomImage]);
         }
     }
