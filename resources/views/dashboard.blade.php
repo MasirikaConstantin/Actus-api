@@ -224,7 +224,7 @@
                         </div>
                 
                         <div class="flex justify-end mt-4">
-                            {{ $users->links() }}
+                            {{ $categories->links() }}
                         </div>
                     </div>
                 </div>
