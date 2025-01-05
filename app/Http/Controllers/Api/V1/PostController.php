@@ -188,6 +188,7 @@ public function lescategory( string $category, Request $request){
     
     // Récupérer les posts avec les sections, les réactions, et les commentaires
     $posts = Post::where('categorie_id',"=",$category)->with(['sections', 'reactions', 'commentaires','categorie','user'])
+    ->where('status','=',1)
         ->withCount([
             'reactions as total_reactions',
             'reactions as true_reactions' => function ($query) {
