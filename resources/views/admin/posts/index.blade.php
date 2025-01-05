@@ -47,9 +47,27 @@
                         <td class="px-6 py-4 border-b">{{ $post->categorie->name }}</td>
                         <td class="px-6 py-4 border-b">{{ $post->type->id }}</td>
                         <td class="px-6 py-4 border-b">
-                            <span class="px-2 py-1 rounded {{ $post->status ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' }}">
+                            <div class="flex space-x-2">
+                                <a href="{{ route('admin.editcat',['categorie'=>$post]) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                </a>
+                            <span class="px-2 py-1 mb-4 rounded {{ $post->status ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' }}">
                                 {{ $post->status ? 'Publié' : 'Brouillon' }}
                             </span>
+                            <div class="flex space-x-2">
+                                <form action="{{ route('admin.toggleStatus', $post->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" 
+                                        class="focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 
+                                            {{ $post->status === 1 ? 'bg-red-600 hover:bg-red-800' : 'bg-green-600 hover:bg-green-800' }}">
+                                        {{ $post->status === 0 ? 'Activer' : ' Désactiver' }}
+                                    </button>
+                                </form>
+                            </div>
+                            </div>
                         </td>
                         <td class="px-6 py-4 border-b">
                             <div class="flex space-x-2">

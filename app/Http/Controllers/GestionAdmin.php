@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategorieValidator;
 use App\Models\Categorie;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -58,5 +59,14 @@ class GestionAdmin extends Controller
         $user->delete();
 
         return redirect(route("dashboard") . '#utilisateur')->with('success', "L'utilisateur {$userName} a été supprimé avec succès.");
+    }
+
+    public function toggleStatus($id)
+    {
+        $user = Post::findOrFail($id);
+        $user->status = $user->status === 0 ? 1 : 0; // Basculer entre actif (0) et inactif (1)
+        $user->save();
+    
+        return redirect()->back()->with('success', 'État du Post mis à jour.');
     }
 }

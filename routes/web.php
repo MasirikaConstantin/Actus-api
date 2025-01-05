@@ -71,6 +71,8 @@ Route::middleware(['auth','verified','rolemanager:admin'])->group(function () {
     // Route pour supprimer un utilisateur
     Route::delete('/admin/users/{user}/delete', [GestionAdmin::class, 'deleteUser'])
         ->name('admin.deleteUser');
+    Route::patch('/admin/{id}/toggle-status', [GestionAdmin::class, 'toggleStatus'])->name('admin.toggleStatus');
+
 });
 
 Route::middleware(['auth','verified','rolemanager:admin'])->group(function () {
