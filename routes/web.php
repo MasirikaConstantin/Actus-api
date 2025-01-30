@@ -78,7 +78,6 @@ Route::middleware(['auth','verified','rolemanager:admin'])->group(function () {
 Route::middleware(['auth','verified','rolemanager:admin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         // Liste des posts
-        Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
         
         // Formulaire de création
         Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
@@ -97,6 +96,8 @@ Route::middleware(['auth','verified','rolemanager:admin'])->group(function () {
 
     });
 });
+Route::get('admin/posts', [PostController::class, 'index'])->name('admin.posts.index');
+
 Route::get('admin/posts/{post}', [PostController::class, 'show'])->name('admin.posts.show');
 
 
