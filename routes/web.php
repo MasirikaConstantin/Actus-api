@@ -95,9 +95,10 @@ Route::middleware(['auth','verified','rolemanager:admin'])->group(function () {
         // Suppression d'un post
         Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-        Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
     });
 });
+Route::get('admin/posts/{post}', [PostController::class, 'show'])->name('admin.posts.show');
+
 
 
 
