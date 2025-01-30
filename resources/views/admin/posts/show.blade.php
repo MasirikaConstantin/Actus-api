@@ -1,15 +1,14 @@
-<!-- 
-Install the "flowbite-typography" NPM package to apply styles and format the article content: 
-
-URL: https://flowbite.com/docs/components/typography/ 
--->
-
 <meta property="og:title" content="{{ $post->titre }}" />
 <meta property="og:description" content="{{ $post->introduction }}" />
 <meta property="og:image" content="{{ $post->imageUrl() }}" />
 <meta property="og:url" content="{{ route('admin.posts.show', $post->id) }}" />
-<meta property="og:type" content="{{ $post->categorie->name }}" />
-
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Nom de votre site" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="fr_FR" />
+<meta property="article:published_time" content="{{ $post->created_at->toIso8601String() }}" />
+<meta property="article:modified_time" content="{{ $post->updated_at->toIso8601String() }}" />
 @section('titre',$post->titre)
 <x-app-layout>
 <main class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
@@ -70,7 +69,14 @@ URL: https://flowbite.com/docs/components/typography/
               </div>
             @endforelse
            
-            <!--section class="not-format">
+            
+        </article>
+    </div>
+  </main>
+  
+  
+</x-app-layout>
+<!--section class="not-format">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion (20)</h2>
                 </div>
@@ -284,9 +290,3 @@ URL: https://flowbite.com/docs/components/typography/
                     </div>
                 </article>
             </section-->
-        </article>
-    </div>
-  </main>
-  
-  
-</x-app-layout>
