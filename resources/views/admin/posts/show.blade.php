@@ -3,6 +3,13 @@ Install the "flowbite-typography" NPM package to apply styles and format the art
 
 URL: https://flowbite.com/docs/components/typography/ 
 -->
+
+<meta property="og:title" content="{{ $post->titre }}" />
+<meta property="og:description" content="{{ $post->introduction }}" />
+<meta property="og:image" content="{{ $post->imageUrl() }}" />
+<meta property="og:url" content="{{ route('admin.posts.show', $post->id) }}" />
+<meta property="og:type" content="{{ $post->categorie->name }}" />
+
 @section('titre',$post->titre)
 <x-app-layout>
 <main class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
