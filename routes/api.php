@@ -32,8 +32,7 @@ Route::post("/react",[ReactionController::class, "store"])->middleware('auth:san
    
 Route::get('/reaction/{post}', [PostController::class, 'Reaction'])->middleware('auth:sanctum');
 Route::get('/posts/{post}', [PostController::class, 'show']);
-Route::get('/unpost/{post}', [PostController::class, 'shows']);
-
+Route::get('/posts/slug/{slug}', [PostController::class, 'shows']);
 
 
 Route::post('/login', [GestionConnexion::class, 'login']);

@@ -159,13 +159,12 @@ public function show(Post $post)
     //return new UnPostRessource($post);
 }
 
-public function shows(Post $post)
+public function shows( $slug)
 {
-    // Incrémenter le compteur de vues
-    $post->incrementViewsCount();
+   
 
     // Charger le post avec les relations et les comptages nécessaires
-    $post = Post::where('slug', $post->slug)
+    $post = Post::where('slug', $slug)
         ->where('status', '=', 1)
         ->with([
             'sections', 
@@ -189,7 +188,8 @@ public function shows(Post $post)
         ])
         ->firstOrFail();
         $autres = Post::where('categorie_id',$post->categorie_id)->where("status",1)->paginate(8);
-
+    // Incrémenter le compteur de vues
+    $post->incrementViewsCount();
         return (new UnPostRessource($post))
     ->additional([
         'autres' => [
