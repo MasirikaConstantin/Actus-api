@@ -159,6 +159,18 @@ public function show(Post $post)
     //return new UnPostRessource($post);
 }
 
+public function categorie( $categorie)
+{
+   
+
+    // Charger le post avec les relations et les comptages nécessaires
+    $cat = Categorie::where('id', $categorie);
+
+        return response()->json($cat, 201);
+
+   
+}
+
 public function shows( $slug)
 {
    
