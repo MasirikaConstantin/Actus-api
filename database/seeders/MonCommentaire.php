@@ -27,7 +27,7 @@ class MonCommentaire extends Seeder
                  Commentaire::create([
                      'post_id' => $post->id,  // Lier le commentaire au post avec l'ID 4
                      'user_id' => rand(1, 10), // Assurez-vous que l'utilisateur existe, ici entre 1 et 10
-                     'content' => $faker->sentence,  // Crée une phrase aléatoire pour le commentaire
+                     'contenu' => $faker->sentence,  // Crée une phrase aléatoire pour le commentaire
                  ]);
              }
  
