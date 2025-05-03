@@ -7,6 +7,7 @@ use App\Http\Requests\Api\V1\PostValidator;
 use App\Http\Requests\Api\V1\ReactionValidator;
 use App\Http\Resources\CarousselRessource;
 use App\Http\Resources\FavorisResource;
+use App\Http\Resources\PostRessource;
 use App\Http\Resources\RessourcePostAll;
 use App\Http\Resources\UnPostRessource;
 use App\Models\Categorie;
@@ -120,7 +121,6 @@ public function show(Post $post)
         ->where('status', '=', 1)
         ->with([
             'sections', 
-            'reactions', 
             'commentaires' => function ($query) {
                 $query->orderBy('created_at', 'desc'); // Trier les commentaires par date décroissante
             }, 
@@ -140,9 +140,71 @@ public function show(Post $post)
             'favoris' // Comptage des favoris
         ])
         ->firstOrFail();
+        $autres = Post::where('categorie_id',$post->categorie_id)->where("status",1)->paginate(8);
+
+        return (new UnPostRessource($post))
+    ->additional([
+        'autres' => [
+            'data' => PostRessource::collection($autres),
+            'pagination' => [
+                'current_page' => $autres->currentPage(),
+                'last_page' => $autres->lastPage(),
+                'per_page' => $autres->perPage(),
+                'total' => $autres->total(),
+            ]
+        ]
+    ]);
 
     // Retourner les données au format JSON
-    return new UnPostRessource($post);
+    //return new UnPostRessource($post);
+}
+
+public function shows(Post $post)
+{
+    // Incrémenter le compteur de vues
+    $post->incrementViewsCount();
+
+    // Charger le post avec les relations et les comptages nécessaires
+    $post = Post::where('slug', $post->slug)
+        ->where('status', '=', 1)
+        ->with([
+            'sections', 
+            'commentaires' => function ($query) {
+                $query->orderBy('created_at', 'desc'); // Trier les commentaires par date décroissante
+            }, 
+            'commentaires.user', // Charger l'utilisateur associé à chaque commentaire
+            'categorie', 
+            'user'
+        ])
+        ->withCount([
+            'reactions as total_reactions',
+            'reactions as true_reactions' => function ($query) {
+                $query->where('reaction', true); // ou 1 selon votre logique
+            },
+            'reactions as false_reactions' => function ($query) {
+                $query->where('reaction', false); // ou 0 selon votre logique
+            },
+            'commentaires', // Comptage des commentaires
+            'favoris' // Comptage des favoris
+        ])
+        ->firstOrFail();
+        $autres = Post::where('categorie_id',$post->categorie_id)->where("status",1)->paginate(8);
+
+        return (new UnPostRessource($post))
+    ->additional([
+        'autres' => [
+            'data' => PostRessource::collection($autres),
+            'pagination' => [
+                'current_page' => $autres->currentPage(),
+                'last_page' => $autres->lastPage(),
+                'per_page' => $autres->perPage(),
+                'total' => $autres->total(),
+            ]
+        ]
+    ]);
+
+    // Retourner les données au format JSON
+    //return new UnPostRessource($post);
 }
 
 

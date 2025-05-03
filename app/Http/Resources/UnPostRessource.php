@@ -40,6 +40,8 @@ class UnPostRessource extends JsonResource
             'commentaires' => CommentaireResource::collection($this->whenLoaded('commentaires')),
             'categorie' => new CategorieRessource($this->whenLoaded('categorie')),
             'user' => new UserResource($this->whenLoaded('user')),
+            'autres' => PostRessource::collection($this->whenLoaded('autres')),
+
         ];
     }
 }
