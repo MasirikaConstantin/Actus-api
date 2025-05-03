@@ -349,7 +349,7 @@ public function search(Request $request)
 {
     $query = $request->get('query');
 
-    $posts = Post::select('posts.id', 'posts.titre', 'posts.introduction', 'posts.image', 'posts.categorie_id')
+    $posts = Post::select('posts.id', 'posts.titre','posts.slug', 'posts.introduction', 'posts.image', 'posts.categorie_id')
         ->join('categories', 'posts.categorie_id', '=', 'categories.id')
         ->where('posts.status', 1)
         ->where(function($q) use ($query) {
