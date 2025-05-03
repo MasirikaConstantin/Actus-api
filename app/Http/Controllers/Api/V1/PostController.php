@@ -263,10 +263,8 @@ public function lescategory( string $category, Request $request){
             'favoris'
         ])->orderBy('created_at', 'desc')
         ->paginate($limit);
-            $c = Categorie::find($category);
-        return RessourcePostAll::collection($posts)->additional([
-            "category" => $c
-        ]);
+    
+        return RessourcePostAll::collection($posts);
     return response()->json([
         'message' => 'Liste des posts paginée récupérée avec succès.',
         'posts' => $posts,
