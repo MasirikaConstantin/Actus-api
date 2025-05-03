@@ -22,14 +22,6 @@ Route::get('/user', function (Request $request) {
 
 Route::get("/posts",[PostController::class, "index"]);
 
-//Route::post("/new/posts",[PostController::class, "store"]);
-
-/*
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('posts', PostController::class);
-});
-*/
 Route::post("/new/posts",[PostController::class, "store"])->middleware('auth:sanctum');
 Route::post("/new/sections",[SectionController::class, "store"])->middleware('auth:sanctum');
 
