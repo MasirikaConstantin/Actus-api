@@ -33,7 +33,39 @@ class RessourcePostAll extends JsonResource
             "false_reactions"=> $this->false_reactions,
             "commentaires_count"=> $this->commentaires_count,
             "favoris_count"=> $this->favoris_count,
-           
+            "sections"=> $this->sections->map(function($section) {
+                return [
+                    "id"=> $section->id,
+                    "post_id"=> $section->post_id,
+                    "titre"=> $section->titre,
+                    "contenu"=> $section->contenu,
+                    "image" => $section->image,
+                ];
+            }),
+            "reactions"=> $this->reactions->map(function($reaction) {
+                return [
+                    "id"=> $reaction->id,
+                    "user_id"=> $reaction->user_id,
+                    "post_id"=> $reaction->post_id,
+                    "reaction"=> $reaction->reaction,
+                ];
+            }),
+            "commentaires"=> $this->commentaires->map(function($commentaire) {
+                return [
+                    "id"=> $commentaire->id,
+                    "contenu"=> $commentaire->contenu,
+                    "user_name"=> $commentaire->user->name,
+                    "post_id"=> $commentaire->post_id,
+                    "created_at"=> $commentaire->created_at,
+                ];
+            }),
+            "categorie"=>
+            [
+              "id"=> $this->categorie->id,
+              "name"=> $this->categorie->name,
+              "description"=> $this->categorie->description,
+              "icon"=> $this->categorie->icon
+            ]
         ];
     }
 }
