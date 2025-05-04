@@ -129,12 +129,12 @@ class GestionConnexion extends Controller
             ]);
         } catch (ValidationException $e) {
             return response()->json([
-                'message' => 'Erreur de validation',
+                'message' => 'Erreur de validation'.$e->errors(),
                 'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Une erreur est survenue',
+                'message' => 'Une erreur est survenue'. $e->getMessage(),
                 'error' => $e->getMessage()
             ], 500);
         }
