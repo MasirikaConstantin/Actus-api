@@ -157,7 +157,7 @@ class GestionConnexion extends Controller
     public function updatePhoto(Request $request)
     {
         $request->validate([
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120' // 5MB max
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120' // 5MB max
         ]);
 
         $user = Auth::user();
@@ -165,7 +165,7 @@ class GestionConnexion extends Controller
 
         try {
             // Stocker la nouvelle photo
-            $path = $request->file('photo')->store('public/profiles');
+            $path = $request->file('image')->store('public/profiles');
             $filename = basename($path);
 
             // Mettre à jour l'utilisateur
