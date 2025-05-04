@@ -178,13 +178,13 @@ class GestionConnexion extends Controller
                 Storage::delete('public/profiles/'.$requestedUser->image);
             }
     
-            // Enregistrer la nouvelle image
-            $filename = $request->file('image')->store('public/profiles');
-            $filename = basename($filename);
+           // Enregistrer la nouvelle image avec le chemin complet
+            $path = $request->file('image')->store('public/profiles');
+            
+            // Mettre à jour avec le chemin complet de stockage
+            $requestedUser->update(['image' => $path]);
     
-            // Mettre à jour uniquement le champ image
-            $requestedUser->update(['image' => $filename]);
-    
+            
             return response()->json([
                 'success' => true,
                 'image' => $requestedUser // Retourne seulement le nom du fichier
