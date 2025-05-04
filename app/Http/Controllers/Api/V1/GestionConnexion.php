@@ -157,41 +157,43 @@ class GestionConnexion extends Controller
     public function updatePhoto(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120' // 5MB max
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'id' => 'required|integer|exists:users,id'
         ]);
-
-        $user = Auth::user();
-        $currentPhoto = $user->image;
-
-        try {
-            // Stocker la nouvelle photo
-            $path = $request->file('image')->store('public/profiles');
-            $filename = basename($path);
-
-            // Mettre à jour l'utilisateur
-            $user->update(['image' => $filename]);
-
-            // Supprimer l'ancienne photo si elle existe
-            if ($currentPhoto && Storage::exists('public/profiles/'.$currentPhoto)) {
-                Storage::delete('public/profiles/'.$currentPhoto);
-            }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Photo mise à jour avec succès',
-                'image_url' => asset("storage/profiles/{$filename}"),
-                'user' => $user->fresh()
-            ]);
-
-        } catch (\Exception $e) {
-            // En cas d'erreur, supprimer la nouvelle photo si elle a été uploadée
-            if (isset($filename) && Storage::exists('public/profiles/'.$filename)) {
-                Storage::delete('public/profiles/'.$filename);
-            }
-
+    
+        // Vérifier que l'utilisateur est autorisé à modifier ce profil
+        $requestedUser = User::findOrFail($request->id);
+        $authUser = $request->user(); // Utilisateur authentifié via le token Sanctum
+    
+        if ($requestedUser->id !== $authUser->id) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la mise à jour de la photo',
+                'message' => 'Action non autorisée'
+            ], 403);
+        }
+    
+        try {
+            // Supprimer l'ancienne image si elle existe
+            if ($requestedUser->image) {
+                Storage::delete('public/profiles/'.$requestedUser->image);
+            }
+    
+            // Enregistrer la nouvelle image
+            $filename = $request->file('image')->store('public/profiles');
+            $filename = basename($filename);
+    
+            // Mettre à jour uniquement le champ image
+            $requestedUser->update(['image' => $filename]);
+    
+            return response()->json([
+                'success' => true,
+                'image' => $filename // Retourne seulement le nom du fichier
+            ]);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la mise à jour',
                 'error' => $e->getMessage()
             ], 500);
         }
