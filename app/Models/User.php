@@ -60,4 +60,13 @@ class User extends Authenticatable
 {
     return $this->belongsToMany(Post::class, 'favoris')->withTimestamps();
 }
+protected $appends = ['image'];
+
+    public function getImageAttribute()
+{
+    if ($this->attributes['image']) {
+        return config('app.url') . '/storage/' . $this->attributes['image'];
+    }
+    return null;
+}
 }
