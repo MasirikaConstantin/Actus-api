@@ -163,15 +163,9 @@ class GestionConnexion extends Controller
     
         // Vérifier que l'utilisateur est autorisé à modifier ce profil
         $requestedUser = User::findOrFail($request->id);
-        $authUser = $request->user(); // Utilisateur authentifié via le token Sanctum
+        //$authUser = $request->user(); // Utilisateur authentifié via le token Sanctum
     
-        if ($requestedUser->id !== $authUser->id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Action non autorisée'
-            ], 403);
-        }
-    
+        
         try {
             // Supprimer l'ancienne image si elle existe
             if ($requestedUser->image) {
