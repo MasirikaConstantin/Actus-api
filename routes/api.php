@@ -29,11 +29,11 @@ Route::post("/new/sections",[SectionController::class, "store"])->middleware('au
 Route::post("/new/comment",[CommentaireControler::class, "store"])->middleware('auth:sanctum');
 Route::post("/react",[ReactionController::class, "store"])->middleware('auth:sanctum');
 
-   
 Route::get('/reaction/{post}', [PostController::class, 'Reaction'])->middleware('auth:sanctum');
 Route::get('/posts/{post}', [PostController::class, 'show']);
 Route::get('/posts/slug/{slug}', [PostController::class, 'shows']);
 
+Route::post('/user/update-photo', [GestionConnexion::class, 'updatePhoto'])->middleware('auth:sanctum');
 
 Route::post('/login', [GestionConnexion::class, 'login']);
 Route::post('/logout', [GestionConnexion::class, 'logout'])->middleware('auth:sanctum');
