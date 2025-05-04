@@ -14,7 +14,7 @@ class GestionConnexion extends Controller
 {
     public function get(String $user){
         $requestedUser = User::findOrFail($user);
-       return UserResource::collection($requestedUser);
+       return new UserResource($requestedUser);
     }
     public function register(Request $request)
     {

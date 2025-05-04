@@ -38,7 +38,7 @@ Route::post('/user/update-photo', [GestionConnexion::class, 'updatePhoto'])->mid
 Route::post('/login', [GestionConnexion::class, 'login']);
 Route::post('/logout', [GestionConnexion::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/register', [GestionConnexion::class, 'register']);
-Route::get('/user/{user}', [GestionConnexion::class, 'get'])->middleware('auth:sanctum');
+Route::get('/user/{user}', [GestionConnexion::class, 'get']);
 Route::put('/user', [GestionConnexion::class, 'update'])->middleware('auth:sanctum');
 Route::delete('/user', [GestionConnexion::class, 'delete'])->middleware('auth:sanctum');
 Route::get('/reaction/{post}', [PostController::class, 'Reaction'])->middleware('auth:sanctum');
