@@ -165,7 +165,13 @@ class GestionConnexion extends Controller
         $requestedUser = User::findOrFail($request->id);
         //$authUser = $request->user(); // Utilisateur authentifié via le token Sanctum
     
-        
+        /*if ($requestedUser->id !== $authUser->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Action non autorisée'
+            ], 403);
+        }*/
+    
         try {
             // Supprimer l'ancienne image si elle existe
             if ($requestedUser->image) {
@@ -181,7 +187,7 @@ class GestionConnexion extends Controller
     
             return response()->json([
                 'success' => true,
-                'image' => $filename // Retourne seulement le nom du fichier
+                'image' => $requestedUser // Retourne seulement le nom du fichier
             ]);
     
         } catch (\Exception $e) {
