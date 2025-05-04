@@ -180,6 +180,8 @@ class GestionConnexion extends Controller
     
            // Enregistrer la nouvelle image avec le chemin complet
             $path = $request->file('image')->store('public/profiles');
+            $path = $request->file('image')->store('profiles', 'public');
+
             
             // Mettre à jour avec le chemin complet de stockage
             $requestedUser->update(['image' => $path]);
