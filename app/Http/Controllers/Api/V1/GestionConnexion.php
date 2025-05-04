@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,10 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
 class GestionConnexion extends Controller
 {
+    public function get(String $user){
+        $requestedUser = User::findOrFail($user);
+       return UserResource::collection($requestedUser);
+    }
     public function register(Request $request)
     {
         try {
