@@ -111,13 +111,13 @@ class GestionConnexion extends Controller
             $validated = $request->validate([
                 'name' => 'sometimes|string|max:255',
                 'email' => 'sometimes|email|unique:users,email,' . $user->id,
-                'password' => 'sometimes|min:6|confirmed',
+                'password' => 'sometimes|nullable|min:6|confirmed',
             ]);
 
             $updateData = [];
             if (isset($validated['name'])) $updateData['name'] = $validated['name'];
             if (isset($validated['email'])) $updateData['email'] = $validated['email'];
-            if (isset($validated['password'])) {
+            if (!empty($validated['password'])) {
                 $updateData['password'] = Hash::make($validated['password']);
             }
 
@@ -129,12 +129,12 @@ class GestionConnexion extends Controller
             ]);
         } catch (ValidationException $e) {
             return response()->json([
-                'message' => 'Erreur de validation'.$e->errors(),
+                'message' => 'Erreur de validation',
                 'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Une erreur est survenue'. $e->getMessage(),
+                'message' => 'Une erreur est survenue',
                 'error' => $e->getMessage()
             ], 500);
         }
