@@ -23,12 +23,15 @@ class GestionConnexion extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users',
                 'password' => 'required|min:6|confirmed',
+                'image' => 'nullable|string', // ou 'image' si upload
             ]);
 
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
+                'image' => $validated['image'] ?? null, // <-- évite l’erreur
+
             ]);
 
             $token = $user->createToken('auth_token')->plainTextToken;
